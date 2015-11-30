@@ -5,14 +5,17 @@
  */
 package fileservice;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException; 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,9 +42,42 @@ public class CsvFormatter implements TextFormatter{
         
     }
     @Override
-     public void encode(List <Map<String,String>> data){
-         
-     }
-    
+     public void encode(List <Map<String,String>> data){ 
+         FileWriter fw = null;
+         BufferedWriter bw = null;
+         try{
+            File file = new File("C:"+File.separatorChar+"Users"+File.separatorChar+"Nicholas"+File.separatorChar+"Documents"+File.separatorChar+"NetBeansProjects"+File.separatorChar+"NAP - ParkingGarage App"+File.separatorChar+"src"+File.separatorChar+"nap"+File.separatorChar+"parkinggarage"+File.separatorChar+"app"+File.separatorChar+"GarageTotal");
+             // if file doesnt exists, then create it
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            fw = new FileWriter(file.getAbsoluteFile());
+            bw = new BufferedWriter(fw);
+            
+            Map<String,String> entry1= data.get(0);
+            Set<String> keys = entry1.keySet();
+            for(String item : keys){
+                bw.write(item + ",");
+            }
+            bw.write("\n");
+            for (Map<String, String> entry : data) {
+                for (String key : keys) {
+                    String value = entry.get(key);
+                    bw.write(value + ",");
+                }
+                bw.write("\n");
+            }
+        }
+        catch(Exception e){
+                e.printStackTrace();
+        }
+         finally{
+            try {
+                bw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CsvFormatter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Done");
+         }
+    }
 }
-

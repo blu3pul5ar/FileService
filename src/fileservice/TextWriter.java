@@ -9,6 +9,21 @@ package fileservice;
  *
  * @author Nicholas
  */
+import java.util.List;
+import java.util.Map;
+
+/**
+ *
+ * @author Nicholas
+ */
 public class TextWriter {
-    
+       private TextFormatter t;
+
+    public TextWriter(TextFormatter t) {
+        this.t = t;
+    }
+    public void encode(List<Map<String,String>> data){
+        t.encode(data);
+    }
 }
+
